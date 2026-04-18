@@ -91,7 +91,7 @@ with st.sidebar:
     liste = strateji_listesi()
     secenekler = ["— Strateji Seç —"] + liste
     secili_strateji = st.selectbox("Kayıtlı Stratejiler", options=secenekler, index=0)
-    st.text_input("Strateji Adı", key="strateji_adi", placeholder="Örn: Gün sonu tarama")
+    st.text_input("Strateji Adı", key="strateji_adi_input", placeholder="Örn: Gün sonu tarama")
 
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -103,7 +103,7 @@ with st.sidebar:
                 veri = strateji_yukle(secili_strateji)
                 if veri:
                     strateji_uygula(veri)
-                    st.session_state["strateji_adi"] = secili_strateji
+                    st.session_state["strateji_adi_input"] = secili_strateji
                     st.session_state["bildirim"] = f"{secili_strateji} yüklendi."
                     st.session_state["bildirim_tip"] = "success"
                     st.rerun()
@@ -125,20 +125,20 @@ with st.sidebar:
     c4, c5 = st.columns(2)
     with c4:
         if st.button("Temizle", use_container_width=True):
-            st.session_state["strateji_adi"] = ""
+            st.session_state["strateji_adi_input"] = ""
             st.session_state["bildirim"] = "Seçim temizlendi."
             st.session_state["bildirim_tip"] = "info"
             st.rerun()
     with c5:
         if st.button("Sil", use_container_width=True):
-            ad = st.session_state["strateji_adi"].strip() or (
+            ad = st.session_state["strateji_adi_input"].strip() or (
                 secili_strateji if secili_strateji != "— Strateji Seç —" else ""
             )
             ok, mesaj = strateji_sil(ad)
             st.session_state["bildirim"] = mesaj
             st.session_state["bildirim_tip"] = "success" if ok else "error"
             if ok:
-                st.session_state["strateji_adi"] = ""
+                st.session_state["strateji_adi_input"] = ""
                 st.rerun()
 
     if st.session_state["bildirim"]:
