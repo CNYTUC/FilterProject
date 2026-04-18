@@ -1,0 +1,31 @@
+# BIST Hisse Listesi - Yahoo Finance formatı (.IS uzantılı)
+
+BIST_HISSELER = [
+    # BIST 30
+    "AKBNK.IS", "ARCLK.IS", "ASELS.IS", "BIMAS.IS", "DOHOL.IS",
+    "EKGYO.IS", "EREGL.IS", "FROTO.IS", "GARAN.IS", "GUBRF.IS",
+    "HALKB.IS", "ISCTR.IS", "KCHOL.IS", "KOZAA.IS", "KOZAL.IS",
+    "KRDMD.IS", "LOGO.IS",  "MGROS.IS", "ODAS.IS", "OYAKC.IS",
+    "PETKM.IS", "PGSUS.IS", "SAHOL.IS", "SASA.IS", "SISE.IS",
+    "SOKM.IS", "TAVHL.IS", "TCELL.IS", "THYAO.IS", "TKFEN.IS",
+    "TOASO.IS", "TTKOM.IS", "TUPRS.IS", "VAKBN.IS", "VESTL.IS",
+    "YKBNK.IS",
+
+    # BIST 50 Ek Hisseler
+    "AEFES.IS", "AGHOL.IS", "ALARK.IS", "ALBRK.IS", "ALFAS.IS",
+    "ANACM.IS", "ASUZU.IS", "BAGFS.IS", "BANVT.IS", "BRISA.IS",
+    "CCOLA.IS", "CEMTS.IS", "CIMSA.IS", "CLEBI.IS", "DOAS.IS",
+    "EGEEN.IS", "ENKAI.IS", "ENJSA.IS", "EUPWR.IS", "FENER.IS",
+    "GLYHO.IS", "GOLTS.IS", "GOODY.IS", "HEKTS.IS", "IPEKE.IS",
+    "ISGYO.IS", "ISMEN.IS", "KARSN.IS", "KATMR.IS", "KLNMA.IS",
+    "KONTR.IS", "KONYA.IS", "KORDS.IS", "KRVGD.IS", "LMKDC.IS",
+    "MAVI.IS",  "MPARK.IS", "NETAS.IS", "NTHOL.IS", "OTKAR.IS",
+    "PARSN.IS", "POLHO.IS", "QUAGR.IS", "REEDR.IS", "RGYAS.IS",
+    "RYSAS.IS", "SELEC.IS", "SILVR.IS", "SMART.IS", "SMRTG.IS",
+    "SNPAM.IS", "TATGD.IS", "TCELL.IS", "TKFEN.IS", "TMSN.IS",
+    "TRGYO.IS", "TRILC.IS", "TURSG.IS", "ULKER.IS", "USDTR.IS",
+    "VESBE.IS", "VKGYO.IS", "WENTO.IS", "YYAPI.IS", "ZOREN.IS",
+]
+
+# Tekrar edenleri temizle
+BIST_HISSELER = list(dict.fromkeys(BIST_HISSELER))
