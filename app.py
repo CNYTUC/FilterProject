@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 from indicators import INDICATORS
-from analiz import apply_indicators, check_conditions
+from analiz_dynamic import apply_indicators, check_conditions
 
 st.title("Dynamic Indicator Scanner")
 
