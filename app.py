@@ -202,7 +202,11 @@ with st.sidebar:
         with st.container(border=True):
             cb_key = f"cb_{key}"
             st.checkbox(
-                f"{meta['label']} {f'({meta.get(\"help\")})' if meta.get('help') else ''}",
+                st.checkbox(
+                            f"{meta['label']} {help_text}",
+                            key=cb_key
+                        )
+                        
                 key=cb_key
             )
             if st.session_state.get(cb_key, False):
