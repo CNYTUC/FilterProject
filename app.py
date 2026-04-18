@@ -201,14 +201,15 @@ with st.sidebar:
     for key, meta in INDICATORS.items():
         with st.container(border=True):
             cb_key = f"cb_{key}"
+
+            help_text = f"({meta.get('help')})" if meta.get("help") else ""
+
             st.checkbox(
-                st.checkbox(
-                            f"{meta['label']} {help_text}",
-                            key=cb_key
-                        )
-                        
+                f"{meta['label']} {help_text}",
                 key=cb_key
             )
+
+
             if st.session_state.get(cb_key, False):
                 for param_key, param_meta in meta.get("params", {}).items():
                     input_label = param_meta.get("label", param_key)
