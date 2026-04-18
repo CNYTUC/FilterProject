@@ -8,16 +8,12 @@ from indicators import INDICATORS
 def varsayilan_filtre_olustur() -> dict:
     """
     indicators.py içeriğinden varsayılan filtre sözlüğü üretir.
-    Hem yeni şemayı ({param: {default: ...}}) hem eski şemayı ({param: 14}) tolere eder.
     """
     filtre = {}
     for key, meta in INDICATORS.items():
         filtre[f"cb_{key}"] = meta.get("enabled_default", False)
         for param_key, param_meta in meta.get("params", {}).items():
-            if isinstance(param_meta, dict):
-                filtre[param_key] = param_meta.get("default")
-            else:
-                filtre[param_key] = param_meta
+            filtre[param_key] = param_meta.get("default")
     return filtre
 
 
@@ -25,6 +21,9 @@ VARSAYILAN_FILTRE = varsayilan_filtre_olustur()
 
 
 def veri_cek(ticker: str, periyot: str = "1y") -> pd.DataFrame | None:
+    """
+    Yahoo Finance'den günlük OHLCV verisi çeker.
+    """
     try:
         df = yf.download(
             ticker,
@@ -113,6 +112,7 @@ def kosul_kontrol(df: pd.DataFrame, filtre: dict) -> dict:
 
     fiyat = float(son["Close"])
 
+    # EMA detayları
     ema20 = float(son["EMA20"])
     ema50 = float(son["EMA50"])
     ema100 = float(son["EMA100"])
@@ -125,11 +125,13 @@ def kosul_kontrol(df: pd.DataFrame, filtre: dict) -> dict:
         "EMA200": round(ema200, 2),
     })
 
+    # 1) EMA trend
     if filtre.get("cb_ema_trend", True):
         sonuc["kosullar"]["ema_trend"] = (ema20 > ema50 > ema100 > ema200)
     else:
         sonuc["kosullar"]["ema_trend"] = True
 
+    # 2) Fiyat bandı
     tolerans = float(filtre.get("fiyat_tolerans", 2)) / 100
     if filtre.get("cb_fiyat_band", True):
         alt = ema50 * (1 - tolerans)
@@ -140,6 +142,7 @@ def kosul_kontrol(df: pd.DataFrame, filtre: dict) -> dict:
     else:
         sonuc["kosullar"]["fiyat_band"] = True
 
+    # 3) Stochastic
     k_son = float(son["STOCH_K"])
     d_son = float(son["STOCH_D"])
     k_prev = float(prev["STOCH_K"])
@@ -158,6 +161,7 @@ def kosul_kontrol(df: pd.DataFrame, filtre: dict) -> dict:
     else:
         sonuc["kosullar"]["stochastic"] = True
 
+    # 4) MACD
     macd_son = float(son["MACD"])
     signal_son = float(son["MACD_SIGNAL"])
     boga = (macd_son > signal_son)
@@ -184,6 +188,7 @@ def kosul_kontrol(df: pd.DataFrame, filtre: dict) -> dict:
     else:
         sonuc["kosullar"]["macd"] = True
 
+    # 5) RSI (opsiyonel)
     if filtre.get("cb_rsi", False):
         rsi = float(son["RSI"])
         rsi_esik = float(filtre.get("rsi_esik", 30))
@@ -192,6 +197,7 @@ def kosul_kontrol(df: pd.DataFrame, filtre: dict) -> dict:
     else:
         sonuc["kosullar"]["rsi"] = True
 
+    # 6) Bollinger (opsiyonel)
     if filtre.get("cb_bollinger", False):
         bb_low = float(son["BB_LOW"])
         bb_mid = float(son["BB_MID"])

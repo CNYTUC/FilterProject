@@ -2,6 +2,8 @@
 indicators.py
 -------------
 Uygulamada kullanılacak indikatörlerin tanımları.
+app.py bu dosyayı okuyarak sol panelde alanları dinamik üretir.
+analiz.py bu dosyadaki yapı üzerinden hesaplama ve kontrol yapar.
 """
 
 INDICATORS = {
@@ -56,6 +58,8 @@ INDICATORS = {
             }
         }
     },
+
+    # İleride aktif etmek istersen hazır dursun:
     "rsi": {
         "label": "🌀 RSI",
         "help": "RSI aşırı satım kontrolü",
